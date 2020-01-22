@@ -1,0 +1,61 @@
+---
+title: "Creating a UAT performance test dataset using `seqgendiff`"
+author: "Alex Kalinka"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    code_folding: hide
+    depth: 3
+    highlight: tango
+    number_sections: true
+    theme: spacelab
+    toc: true
+    toc_float: true
+---
+
+# Setup
+
+```{r setup, include=FALSE}
+set.seed(1)
+
+options(warn=-1)
+suppressMessages(library(knitr))
+suppressMessages(library(tidyr))
+suppressMessages(library(magrittr))
+suppressMessages(library(ggplot2))
+suppressMessages(library(dplyr))
+suppressMessages(library(seqgendiff))
+
+c903 <- read.table("../data/HT29_c903.tsv", header=T, stringsAsFactors = F)[,c(1:7)] %>%
+  dplyr::filter(rowSums(.[,3:6]) > 30)
+
+```
+
+# Summary
+
+`seqgendiff` will be used to add signal (using 'binomial thinning') to a dataset consisting of 4 HT29 control replicates in which there should not be any significant differences. In this way, there will be a set of known true positives and true negatives allowing estimation of the false negative and false positive rates of the calling algorithm (in this case `Mageck`).
+
+# Creating the data
+
+* 500 genes will be randomly selected to receive signal in their gRNAs.
+* Log-fold change (logFC) signal randomly sampled using `rnorm(500,0,1)`, which would result in approx. 250 genes with an expected absolute logFC > 0.8.
+* All guides belonging to a given gene will receive this signal via a noisy `binomial thinning` process.
+
+```{r}
+# Randomly sample genes to receive a signal.
+lfc <- rnorm(500)
+names(lfc) <- sample(unique(c903$gene), 500, replace=F)
+
+coef_mat <- as.matrix(c903 %>%
+                        dplyr::select(gene,-ERS717283.plasmid) %>%
+                        dplyr::mutate(gene_indicator = ifelse(gene %in% names(lfc),1,0)) %>%
+                        dplyr::group_by(gene) %>%
+                        dplyr::mutate(gene_indicator = ifelse(gene %in% names(lfc),lfc[names(lfc)==gene])) %>%
+                        dplyr::ungroup() %>%
+                        dplyr::select(gene_indicator))
+
+
+```
+
+
+

@@ -25,8 +25,8 @@ The analysis is contained in an R markdown document (`.Rmd`) in the `analysis` s
 
 ## Usage
 
-To save `UAT-results.html` to the current working directory:
+To save `UAT-results.html` to the current working directory (note input and output data paths provided to `render` via `params` argument):
 
-`Rscript -e 'Sys.setenv(RSTUDIO_PANDOC="/home/ec2-user/miniconda2/bin/pandoc"); library(rmarkdown); rmarkdown::render("/path/to/fgc_crispr_pipeline_UAT/analysis/run_UAT_analysis.Rmd", output_file="UAT-results.html")`
+`Rscript -e 'Sys.setenv(RSTUDIO_PANDOC="/home/ec2-user/miniconda2/bin/pandoc"); library(rmarkdown); rmarkdown::render("/path/to/fgc_crispr_pipeline_UAT/analysis/run_UAT_analysis.Rmd", output_file="UAT-results.html", params = list(output_v1 = "/path/to/output_v1", output_v2 = "/path/to/output_v2")`
 
 
