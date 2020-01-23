@@ -33,7 +33,7 @@ c903 <- read.table("../data/HT29_c903.tsv", header=T, stringsAsFactors = F)[,c(1
 
 # Summary
 
-`seqgendiff` will be used to add signal (using 'binomial thinning') to a dataset consisting of 4 HT29 control replicates in which there should not be any significant differences. In this way, there will be a set of known true positives and true negatives allowing estimation of the false negative and false positive rates of the calling algorithm (in this case `Mageck`).
+`seqgendiff` will be used to add signal (using 'binomial thinning') to an original dataset consisting of 4 HT29 control replicates in which there should not be any significant differences (i.e. all true negatives prior to the addition of signal). In this way, there will be a set of known true positives and true negatives allowing estimation of the false negative and false positive rates of the calling algorithm (in this case `Mageck`).
 
 # Creating the data
 
@@ -50,10 +50,58 @@ coef_mat <- as.matrix(c903 %>%
                         dplyr::select(gene,-ERS717283.plasmid) %>%
                         dplyr::mutate(gene_indicator = ifelse(gene %in% names(lfc),1,0)) %>%
                         dplyr::group_by(gene) %>%
-                        dplyr::mutate(gene_indicator = ifelse(gene %in% names(lfc),lfc[names(lfc)==gene])) %>%
+                        dplyr::mutate(gene_indicator = ifelse(gene[1] %in% names(lfc),
+                                                              rep(lfc[names(lfc)==gene[1]],n()),
+                                                              rep(0,n()))) %>%
                         dplyr::ungroup() %>%
                         dplyr::select(gene_indicator))
 
+design_mat <- matrix(c(0,0,1,1))
+colnames(design_mat) <- "treatment"
+
+# Add signal to randomly sampled genes and their gRNAs.
+thout <- thin_diff(mat = as.matrix(c903[,4:7]), 
+                   design_fixed = design_mat, 
+                   coef_fixed = coef_mat)
+
+c903.bthin <- data.frame(c903[,1:2], thout$mat, stringsAsFactors = F)
+colnames(c903.bthin)[3:6] <- c(paste("control.",1:2,sep=""),paste("treat.",1:2,sep=""))
+
+```
+
+# Algorithm tests
+
+## Mageck
+
+```{r}
+c903.mageck <- read.table("../data/c903-bthin-rnorm.500.symmFC.gene_summary.txt",
+                          header=T, stringsAsFactors = F) %>%
+  mutate(lfc_bthin = lfc[match(id, names(lfc))]) %>%
+  rowwise() %>%
+  mutate(sign.05 = (neg.fdr < 0.05 || pos.fdr < 0.05),
+         sign.1 = (neg.fdr < 0.1 || pos.fdr < 0.1)) %>%
+  ungroup()
+
+ggplot(c903.mageck,aes(neg.lfc,lfc_bthin)) +
+  geom_point() +
+  geom_abline(linetype="dashed")
+
+```
+
+## DrugZ
+
+```{r}
+c903.drugz <- read.table("../data/c903-bthin-rnorm.500.symmFC--drugz.txt",
+                          header=T, stringsAsFactors = F) %>%
+  mutate(lfc_bthin = lfc[match(GENE, names(lfc))]) %>%
+  rowwise() %>%
+  mutate(sign.05 = (fdr_synth < 0.05 || fdr_supp < 0.05),
+         sign.1 = (fdr_synth < 0.1 || fdr_supp < 0.1)) %>%
+  ungroup()
+
+ggplot(c903.drugz,aes(normZ,lfc_bthin)) +
+  geom_point() +
+  geom_abline(linetype="dashed")
 
 ```
 
