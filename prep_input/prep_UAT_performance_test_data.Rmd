@@ -71,19 +71,36 @@ colnames(c903.bthin)[3:6] <- c(paste("control.",1:2,sep=""),paste("treat.",1:2,s
 
 # Algorithm tests
 
+```{r}
+# Limit of Detection (LOD) log2 fold change (for genes with a true signal).
+# Genes with 0 < lfc < 0.8 will be ignored when calculating sens. and spec.
+lod.lfc <- 0.8
+```
+
 ## Mageck
 
 ```{r}
 c903.mageck <- read.table("../data/c903-bthin-rnorm.500.symmFC.gene_summary.txt",
                           header=T, stringsAsFactors = F) %>%
-  mutate(lfc_bthin = lfc[match(id, names(lfc))]) %>%
+  mutate(lfc_bthin = ifelse(id %in% names(lfc), lfc[match(id, names(lfc))], 0)) %>%
   rowwise() %>%
   mutate(sign.05 = (neg.fdr < 0.05 || pos.fdr < 0.05),
-         sign.1 = (neg.fdr < 0.1 || pos.fdr < 0.1)) %>%
+         sign.1 = (neg.fdr < 0.1 || pos.fdr < 0.1),
+         ignore = (abs(lfc_bthin) > 0 && abs(lfc_bthin) < lod.lfc),
+         true_neg = lfc_bthin==0,
+         true_pos = abs(lfc_bthin)>0,
+         false_pos = (sign.1 && lfc_bthin==0),
+         false_neg = (!sign.1 && lfc_bthin>0)) %>%
   ungroup()
+
+c903.mageck %>%
+  filter(!ignore) %>%
+  summarise(specificity = 1-sum(false_pos)/sum(true_neg),
+            sensitivity = 1-sum(false_neg)/sum(true_pos))
 
 ggplot(c903.mageck,aes(neg.lfc,lfc_bthin)) +
   geom_point() +
+  geom_point(data = c903.mageck %>% filter(sign.05), color="red") +
   geom_abline(linetype="dashed")
 
 ```
@@ -93,17 +110,27 @@ ggplot(c903.mageck,aes(neg.lfc,lfc_bthin)) +
 ```{r}
 c903.drugz <- read.table("../data/c903-bthin-rnorm.500.symmFC--drugz.txt",
                           header=T, stringsAsFactors = F) %>%
-  mutate(lfc_bthin = lfc[match(GENE, names(lfc))]) %>%
+  mutate(lfc_bthin = ifelse(GENE %in% names(lfc), lfc[match(GENE, names(lfc))], 0)) %>%
   rowwise() %>%
   mutate(sign.05 = (fdr_synth < 0.05 || fdr_supp < 0.05),
-         sign.1 = (fdr_synth < 0.1 || fdr_supp < 0.1)) %>%
+         sign.1 = (fdr_synth < 0.1 || fdr_supp < 0.1),
+         ignore = (abs(lfc_bthin) > 0 && abs(lfc_bthin) < lod.lfc),
+         true_neg = lfc_bthin==0,
+         true_pos = abs(lfc_bthin)>0,
+         false_pos = (sign.1 && lfc_bthin==0),
+         false_neg = (!sign.1 && lfc_bthin>0)) %>%
   ungroup()
+
+c903.drugz %>%
+  filter(!ignore) %>%
+  summarise(specificity = 1-sum(false_pos)/sum(true_neg),
+            sensitivity = 1-sum(false_neg)/sum(true_pos))
 
 ggplot(c903.drugz,aes(normZ,lfc_bthin)) +
   geom_point() +
+  geom_point(data = c903.drugz %>% filter(sign.05), color="red") +
   geom_abline(linetype="dashed")
 
 ```
-
 
 
