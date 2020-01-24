@@ -1,0 +1,96 @@
+{
+   "samples" : [
+      {
+         "cosmic_id" : "",
+         "indexes" : "",
+         "name" : "control.1",
+         "library_annotation" : "yusa_v1_human.1",
+         "slx_id" : "",
+         "class" : "control",
+         "r1_fastq_file": ""
+      },
+      {
+         "slx_id" : "",
+         "library_annotation" : "yusa_v1_human.1",
+         "class" : "control",
+         "name" : "control.2",
+         "indexes" : "",
+         "cosmic_id" : "",
+         "r1_fastq_file": ""
+      },
+      {
+         "indexes" : "",
+         "name" : "treat.1",
+         "library_annotation" : "yusa_v1_human.1",
+         "slx_id" : "",
+         "class" : "treatment",
+         "r1_fastq_file": ""
+      },
+      {
+         "indexes" : "",
+         "name" : "treat.2",
+         "library_annotation" : "yusa_v1_human.1",
+         "slx_id" : "",
+         "class" : "treatment",
+         "r1_fastq_file": ""
+      }
+   ],
+   "comparisons" : [
+      {
+         "library_annotation" : "yusa_v1_human.1",
+         "treatment_samples" : [
+            "treat.1",
+	    "treat.2"
+         ],
+         "control_samples" : [
+            "control.1",
+            "control.2"
+         ],
+         "species" : "human",
+         "name" : "control_vs_treatment",
+         "type" : "n",
+         "counts_file" : "c903-bthin-rnorm.500.symmFC.txt",
+         "sample_prefix" : "",
+         "goal" : "resistance"
+      }
+   ],
+   "general" : {
+      "user_email" : "alex.kalinka@cancer.org.uk",
+      "job_id" : "bthin_from_combinedcounts",
+      "species" : "human",
+      "name" : "bthin_from_combinedcounts",
+      "process_methodn" : "base",
+      "project_name" : "bthin",
+      "input_dir_combined_counts" : "~/fgc-pipeline-uat-input-data/bthin/"
+   },
+   "meta" : [
+      {
+         "class" : "control",
+         "sample" : "control.1",
+         "type" : "n",
+         "name" : "bthin",
+         "batch" : "1"
+      },
+      {
+         "class" : "control",
+         "sample" : "control.2",
+         "type" : "n",
+         "name" : "bthin",
+         "batch" : "1"
+      },
+      {
+         "class" : "treatment",
+         "sample" : "treat.1",
+         "type" : "n",
+         "name" : "bthin",
+         "batch" : "1"
+      },
+      {
+         "class" : "treatment",
+         "sample" : "treat.2",
+         "type" : "n",
+         "name" : "bthin",
+         "batch" : "1"
+      }
+   ]
+}
