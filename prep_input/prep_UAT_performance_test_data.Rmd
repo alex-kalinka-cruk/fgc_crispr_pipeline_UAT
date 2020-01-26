@@ -111,10 +111,12 @@ c903.mageck %>%
   summarise(specificity = 1-sum(false_pos)/sum(true_neg),
             sensitivity = 1-sum(false_neg)/sum(true_pos))
 
-ggplot(c903.mageck,aes(neg.lfc,lfc_bthin)) +
+ggplot(c903.mageck,aes(lfc_bthin,neg.lfc)) +
   geom_point() +
-  geom_point(data = c903.mageck %>% filter(sign.05), color="red") +
-  geom_abline(linetype="dashed")
+  geom_point(data = c903.mageck %>% filter(sign.05), aes(color="signif.")) +
+  geom_abline(linetype="dashed") +
+  xlab("Expected logFC") + ylab("Observed logFC") +
+  ggtitle("Mageck hits at 10% FDR")
 
 ```
 
@@ -139,10 +141,12 @@ c903.drugz %>%
   summarise(specificity = 1-sum(false_pos)/sum(true_neg),
             sensitivity = 1-sum(false_neg)/sum(true_pos))
 
-ggplot(c903.drugz,aes(normZ,lfc_bthin)) +
+ggplot(c903.drugz,aes(lfc_bthin,normZ)) +
   geom_point() +
-  geom_point(data = c903.drugz %>% filter(sign.05), color="red") +
-  geom_abline(linetype="dashed")
+  geom_point(data = c903.drugz %>% filter(sign.05), aes(color="signif.")) +
+  geom_abline(linetype="dashed") +
+  xlab("Expected logFC") + ylab("Observed normZ score") +
+  ggtitle("DrugZ hits at 10% FDR")
 
 ```
 
