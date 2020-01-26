@@ -3,6 +3,24 @@
       {
          "cosmic_id" : "",
          "indexes" : "",
+         "name" : "YUSAplasmid",
+         "library_annotation" : "yusa_v1_human.1",
+         "slx_id" : "",
+         "class" : "plasmid",
+         "r1_fastq_file": ""
+      },
+      {
+         "cosmic_id" : "",
+         "indexes" : "",
+         "name" : "YUSADMSOD0",
+         "library_annotation" : "yusa_v1_human.1",
+         "slx_id" : "",
+         "class" : "baseline",
+         "r1_fastq_file": ""
+      },
+      {
+         "cosmic_id" : "",
+         "indexes" : "",
          "name" : "control.1",
          "library_annotation" : "yusa_v1_human.1",
          "slx_id" : "",
@@ -46,6 +64,12 @@
             "control.1",
             "control.2"
          ],
+         "baseline_samples" : [
+            "YUSADMSOD0"
+         ],
+         "plasmid_samples" : [
+            "YUSAplasmid"
+         ],
          "species" : "human",
          "name" : "control_vs_treatment",
          "type" : "n",
@@ -64,6 +88,20 @@
       "input_dir_combined_counts" : "~/fgc-pipeline-uat-input-data/bthin/"
    },
    "meta" : [
+      {
+         "class" : "plasmid",
+         "sample" : "YUSAplasmid",
+         "type" : "n",
+         "name" : "bthin",
+         "batch" : "1"
+      },
+      {
+         "class" : "baseline",
+         "sample" : "YUSADMSOD0",
+         "type" : "n",
+         "name" : "bthin",
+         "batch" : "1"
+      },
       {
          "class" : "control",
          "sample" : "control.1",

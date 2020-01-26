@@ -11,7 +11,7 @@ Once a Linux VM is set up and working (minimum 100 GB storage), it will be neces
 
 * Set up AWS credentials (key, secret key, eu-west-1 [region]): `aws configure`
 * Sync the v1 pipeline output data from S3 to a local path: `aws sync s3://fgc-pipeline-uat-output-v1 .`
-* Sync the v2 pipeline output data: `aws sync s3://fgc-pipeline-uat-output-v2-20200127`
+* Sync the v2 pipeline output data: `aws sync s3://fgc-pipeline-uat-output-v2-20200127 .`
 
 ### R analysis
 The analysis is contained in an R markdown document (`.Rmd`) in the `analysis` sub-directory. When run using `Rscript`, this will produce an `html` output containing the UAT results. To produce this, you must install `pandoc` via `conda`:

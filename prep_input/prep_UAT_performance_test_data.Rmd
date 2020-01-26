@@ -69,6 +69,19 @@ colnames(c903.bthin)[3:6] <- c(paste("control.",1:2,sep=""),paste("treat.",1:2,s
 
 ```
 
+```{r}
+# For the AZ_CRUK pipeline, we need a 'baseline' and 'plasmid' sample for a resistance screen.
+# Here, we add baseline and plasmid columns from the venetoclax datasets.
+vclax <- read.table("../data/venetoclax_d7_vs_DMSO_combined_counts.txt", 
+                    header=T, stringsAsFactors = F)
+c903.bthin.pipeline <- c903.bthin %>%
+  mutate(YUSAplasmid = vclax$YUSAplasmid[match(sgRNA, vclax$sgRNA)],
+         YUSADMSOD0 = vclax$YUSADMSOD0[match(sgRNA, vclax$sgRNA)],
+         YUSAplasmid = ifelse(is.na(YUSAplasmid),10,YUSAplasmid),
+         YUSADMSOD0 = ifelse(is.na(YUSADMSOD0),10,YUSADMSOD0))
+
+```
+
 # Algorithm tests
 
 ```{r}
