@@ -1,0 +1,55 @@
+---
+title: "CRUK FGC analysis pipeline UAT"
+author: "Alex Kalinka"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    code_folding: hide
+    depth: 3
+    highlight: tango
+    number_sections: true
+    theme: spacelab
+    toc: true
+    toc_float: true
+params:
+  output_v1: FALSE
+  output_v2: FALSE
+---
+
+# Setup
+
+```{r setup, include=FALSE}
+set.seed(1)
+
+options(warn=-1)
+suppressMessages(library(knitr))
+suppressMessages(library(tidyr))
+suppressMessages(library(magrittr))
+suppressMessages(library(ggplot2))
+suppressMessages(library(dplyr))
+
+
+
+```
+
+# Comparison of pipeline outputs to v1
+
+## 1. HT29 (SLX-17741)
+
+
+
+## 2. Public data (Venetoclax)
+
+
+
+
+## 3. Multi-SLX data
+
+
+
+# Performance evaluation
+
+## Binomial-Thinned dataset
+
+
+
