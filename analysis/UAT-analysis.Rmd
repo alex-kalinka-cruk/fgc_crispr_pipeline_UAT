@@ -28,28 +28,76 @@ suppressMessages(library(magrittr))
 suppressMessages(library(ggplot2))
 suppressMessages(library(dplyr))
 
+if(!params$output_v1 || !params$output_v2)
+  stop("Both 'output_v1' and 'output_v2' paths must be provided in the list given to the 'params' argument")
 
+## Common functions.
+# Unpack the v1 data tarballs/zip archives to the current working directory.
+unpack_inputs <- function(){
+  ret <- NULL
+  v1_files <- list.files(params$output_v1, full.names = T)
+  for(file in v1_files){
+    if(grepl("zip$",file)){
+      system(paste("unzip",file))
+    }
+    if(grepl("tar.gz$",file)){
+      fname <- gsub("^(.*?).tar.gz$","\\1",file)
+      system(paste("gunzip",file))
+      system(paste("tar -xf",paste(fname,".tar",sep="")))
+    }
+  }
+}
+
+# Compare output file structure.
+compare_analysis_files <- function(path_v1, path_v2){
+  cwd <- getwd()
+  setwd(path_v1)
+  v1_files <- list.files(path_v1, full.names = T, recursive = T)
+  setwd(path_v2)
+  v2_files <- list.files(path_v2, full.names = T, recursive = T)
+  return(all.equal(v1_files, v2_files))
+}
+
+# Compare counts.
+compare_counts <- function(path_v1, path_v2){
+  
+}
+
+# Compare Mageck gene summary output.
+compare_mageck <- function(path_v1, path_v2){
+  
+}
+
+tryCatch(unpack_inputs(),
+         error = function(e) stop(paste("error unpacking v1 outputs:",e))
+)
 
 ```
 
-# Comparison of pipeline outputs to v1
+# Concordance of pipeline outputs with v1
 
-## 1. HT29 (SLX-17741)
+## 1. Multi-SLX data (Venetoclax sub-sampled FASTQs)
+
+```{r}
+
+```
+
+## 2. HT29 (SLX-17741)
 
 
 
-## 2. Public data (Venetoclax)
+## 3. Public data (Venetoclax)
+
+### From FASTQs
 
 
-
-
-## 3. Multi-SLX data
+### From combined counts
 
 
 
 # Performance evaluation
 
-## Binomial-Thinned dataset
+## 1. Binomial-Thinned dataset
 
 
 
