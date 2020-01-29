@@ -1,5 +1,5 @@
 ---
-title: "CRUK FGC analysis pipeline UAT"
+title: "CRUK FGC analysis pipeline User Acceptance Testing (UAT)"
 author: "Alex Kalinka"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
@@ -20,6 +20,8 @@ params:
 
 ```{r setup, include=FALSE}
 set.seed(1)
+
+CWD <- getwd()
 
 options(warn=-1)
 suppressMessages(library(knitr))
@@ -50,24 +52,55 @@ unpack_inputs <- function(){
 
 # Compare output file structure.
 compare_analysis_files <- function(path_v1, path_v2){
-  cwd <- getwd()
   setwd(path_v1)
   v1_files <- list.files(path_v1, full.names = T, recursive = T)
   setwd(path_v2)
   v2_files <- list.files(path_v2, full.names = T, recursive = T)
+  setwd(CWD)
   return(all.equal(v1_files, v2_files))
 }
 
 # Compare counts.
-compare_counts <- function(path_v1, path_v2){
-  
+compare_counts <- function(files_v1, files_v2){
+  tryCatch({
+    counts_v1 <- read.table(files_v1[grepl("combined_counts.txt",files_v1)],header=T,stringsAsFactors = F)
+    counts_v2 <- read.table(files_v2[grepl("combined_counts.txt",files_v2)],header=T,stringsAsFactors = F)
+  },
+  error = function(e) stop(paste("unable to process counts files:",e))
+  )
+  return(all.equal(counts_v1, counts_v2))
 }
 
-# Compare Mageck gene summary output.
-compare_mageck <- function(path_v1, path_v2){
-  
+# Compare Mageck gene summary output for Treatment vs Control.
+compare_mageck <- function(files_v1, files_v2){
+  tryCatch({
+    mageck_v1 <- read.table(files_v1[grepl("Treatment_vs_Control.gene_summary.txt",files_v1)],
+                            header=T,stringsAsFactors = F)
+    mageck_v2 <- read.table(files_v2[grepl("Treatment_vs_Control.gene_summary.txt",files_v2)],
+                            header=T,stringsAsFactors = F)
+  },
+  error = function(e) stop(paste("unable to process mageck files:",e))
+  )
+  return(all.equal(mageck_v1, mageck_v2))
 }
 
+# compare all.
+compare_all <- function(path_v1, path_v2){
+  tryCatch({
+    cat("Analysis output files identical:")
+    print(compare_analysis_files(path_v1, path_v2))
+    cat("Counts files identical:")
+    print(compare_counts(list.files(path_v1,full.names = T,recursive = T),
+                     list.files(path_v2,full.names = T,recursive = T)))
+    cat("Mageck Treatment vs Control identical:")
+    print(compare_mageck(list.files(path_v1,full.names = T,recursive = T),
+                     list.files(path_v2,full.names = T,recursive = T)))
+  },
+  error = function(e) stop(paste("unable to compare data:",e))
+  )
+}
+
+# Unpack the inputs.
 tryCatch(unpack_inputs(),
          error = function(e) stop(paste("error unpacking v1 outputs:",e))
 )
@@ -79,25 +112,84 @@ tryCatch(unpack_inputs(),
 ## 1. Multi-SLX data (Venetoclax sub-sampled FASTQs)
 
 ```{r}
+# AP output structure from json:
+# [general]project_name/[general]name/1/[comparisons]{crispr}type/[comparisons]name
+
+cat("Day 7:")
+path_v1 <- file.path(CWD,"fastq","crisprn","venetoclax_d7_vs_DMSO")
+path_v2 <- file.path(params$output_v2,"public_data","public_PRJNA540211_MOLM13_Venetoclax_Yusa","1","crisprn",
+                     "venetoclax_d7_vs_DMSO")
+
+compare_all(path_v1, path_v2)
+
+cat("Day 14:")
+path_v1 <- file.path(CWD,"fastq","crisprn","venetoclax_d14_vs_DMSO")
+path_v2 <- file.path(params$output_v2,"public_data","public_PRJNA540211_MOLM13_Venetoclax_Yusa","1","crisprn",
+                     "venetoclax_d14_vs_DMSO")
+
+compare_all(path_v1, path_v2)
 
 ```
 
 ## 2. HT29 (SLX-17741)
 
+```{r}
+path_v1 <- file.path(CWD,"ht29-az","crisprn","plasmid_test")
+path_v2 <- file.path(params$output_v2,"ht29","ht29-az","1","crisprn","plasmid_test")
 
+compare_all(path_v1, path_v2)
+
+```
 
 ## 3. Public data (Venetoclax)
 
 ### From FASTQs
 
+```{r}
+cat("Day 7:")
+path_v1 <- file.path(CWD,"fastq","crisprn","venetoclax_d7_vs_DMSO")
+path_v2 <- file.path(params$output_v2,"public_data","public_PRJNA540211_MOLM13_Venetoclax_Yusa","1","crisprn",
+                     "venetoclax_d7_vs_DMSO")
+
+compare_all(path_v1, path_v2)
+
+cat("Day 14:")
+path_v1 <- file.path(CWD,"fastq","crisprn","venetoclax_d14_vs_DMSO")
+path_v2 <- file.path(params$output_v2,"public_data","public_PRJNA540211_MOLM13_Venetoclax_Yusa","1","crisprn",
+                     "venetoclax_d14_vs_DMSO")
+
+compare_all(path_v1, path_v2)
+
+```
 
 ### From combined counts
 
+```{r}
+cat("Day 7:")
+path_v1 <- file.path(CWD,"combined_counts","crisprn","venetoclax_d7_vs_DMSO")
+path_v2 <- file.path(params$output_v2,"public_data","public_PRJNA540211_MOLM13_Venetoclax_Yusa","1","crisprn",
+                     "venetoclax_d7_vs_DMSO")
+
+compare_all(path_v1, path_v2)
+
+cat("Day 14:")
+path_v1 <- file.path(CWD,"combined_counts","crisprn","venetoclax_d14_vs_DMSO")
+path_v2 <- file.path(params$output_v2,"public_data","public_PRJNA540211_MOLM13_Venetoclax_Yusa","1","crisprn",
+                     "venetoclax_d14_vs_DMSO")
+
+compare_all(path_v1, path_v2)
+
+```
 
 
 # Performance evaluation
 
 ## 1. Binomial-Thinned dataset
 
+```{r}
+# Calculate sensitivity and specificity.
+
+
+```
 
 
