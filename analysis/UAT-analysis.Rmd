@@ -50,7 +50,7 @@ unpack_inputs <- function(){
     }
     if(grepl("tar.gz$",file)){
       fname <- gsub("^(.*?).tar.gz$","\\1",file)
-      system(paste("gunzip",file))
+      system(paste("gunzip -c",file,">",paste(fname,".tar",sep="")))
       system(paste("tar -xf",paste(fname,".tar",sep="")))
     }
   }
@@ -58,11 +58,16 @@ unpack_inputs <- function(){
 
 # Compare output file structure.
 compare_analysis_files <- function(path_v1, path_v2){
-  setwd(path_v1)
-  v1_files <- list.files(path_v1, full.names = T, recursive = T)
-  setwd(path_v2)
-  v2_files <- list.files(path_v2, full.names = T, recursive = T)
-  setwd(CWD)
+  tryCatch({
+    # Must change into dirs to remove upstream path differences.
+    setwd(path_v1)
+    v1_files <- list.files(path_v1, full.names = T, recursive = T)
+    setwd(path_v2)
+    v2_files <- list.files(path_v2, full.names = T, recursive = T)
+    setwd(CWD)
+  },
+  error = function(e) stop(paste("unable to compare analysis output file structure:",e))
+  )
   return(all.equal(v1_files, v2_files))
 }
 
@@ -219,12 +224,13 @@ kable(c903.mageck %>%
             )
 )
 
+cat("Comparing known logFC added as signal vs observed logFC taken from Mageck:")
 ggplot(c903.mageck, aes(lfc_bthin,neg.lfc)) +
   geom_point() +
   geom_point(data = c903.mageck %>% filter(sign.1), aes(color="signif.")) +
   geom_abline(linetype="dashed") +
   xlab("Expected logFC") + ylab("Observed logFC") +
-  ggtitle("Mageck hits at 10% FDR")
+  ggtitle("logFC Observed vs Expected: Mageck hits at 10% FDR")
 
 ```
 
