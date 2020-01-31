@@ -16,7 +16,7 @@ params:
   output_v2: FALSE
   lod_lfc: !r 0.8
   specificity: !r 0.99
-  sensitivity: !r 0.87
+  sensitivity: !r 0.78
 ---
 
 # Setup
@@ -211,7 +211,7 @@ c903.mageck <- read.table(path_mageck,header=T, stringsAsFactors = F) %>%
          true_neg = lfc_bthin==0,
          true_pos = abs(lfc_bthin)>0,
          false_pos = (sign.1 && lfc_bthin==0),
-         false_neg = (!sign.1 && lfc_bthin>0)) %>%
+         false_neg = (!sign.1 && abs(lfc_bthin)>0)) %>%
   ungroup()
 
 cat("10% FDR performance:")
