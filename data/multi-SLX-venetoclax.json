@@ -2,61 +2,54 @@
    "samples" : [
       {
          "cosmic_id" : "",
-         "indexes" : "",
+         "indexes" : "I1",
          "name" : "YUSADMSOD0",
          "library_annotation" : "yusa_v1_human.1",
          "slx_id" : "SLX-101",
-         "class" : "baseline",
-         "r1_fastq_file": "${pipeline_data_root}/SLX-101.s_1.SRR8983573.fastq.gz"
+         "class" : "baseline"
       },
       {
          "slx_id" : "SLX-100",
          "library_annotation" : "yusa_v1_human.1",
          "class" : "plasmid",
          "name" : "YUSAplasmid",
-         "indexes" : "",
-         "cosmic_id" : "",
-         "r1_fastq_file": "${pipeline_data_root}/SLX-100.s_1.SRR8983578.fastq.gz"
+         "indexes" : "I1",
+         "cosmic_id" : ""
       },
       {
-         "indexes" : "",
+         "indexes" : "I2",
          "name" : "YUSADMSOD7",
          "library_annotation" : "yusa_v1_human.1",
          "slx_id" : "SLX-101",
-         "class" : "control",
-         "r1_fastq_file": "${pipeline_data_root}/SLX-101.s_1.SRR8983577.fastq.gz"
+         "class" : "control"
       },
       {
-         "indexes" : "",
+         "indexes" : "I3",
          "name" : "YUSADMSOD7dupl",
          "library_annotation" : "yusa_v1_human.1",
          "slx_id" : "SLX-101",
-         "class" : "control",
-         "r1_fastq_file": "${pipeline_data_root}/SLX-101.s_1.SRR8983576.fastq.gz"
+         "class" : "control"
       },
       {
-         "indexes" : "",
+         "indexes" : "I4",
          "name" : "YUSADMSOD14",
          "library_annotation" : "yusa_v1_human.1",
          "slx_id" : "SLX-101",
-         "class" : "control",
-         "r1_fastq_file": "${pipeline_data_root}/SLX-101.s_1.SRR8983575.fastq.gz"
+         "class" : "control"
       },
       {
-         "indexes" : "",
+         "indexes" : "I5",
          "name" : "YUSADMSOD14dupl",
          "library_annotation" : "yusa_v1_human.1",
          "slx_id" : "SLX-101",
-         "class" : "control",
-         "r1_fastq_file": "${pipeline_data_root}/SLX-101.s_1.SRR8983574.fastq.gz"
+         "class" : "control"
       },
       {
          "class" : "treatment",
          "library_annotation" : "yusa_v1_human.1",
          "slx_id" : "SLX-101",
          "name" : "YUSAABTD7",
-         "indexes" : "",
-         "r1_fastq_file": "${pipeline_data_root}/SLX-101.s_1.SRR8983572.fastq.gz",
+         "indexes" : "I6",
          "treatment" : "venetoclax"
       },
 {
@@ -64,8 +57,7 @@
          "library_annotation" : "yusa_v1_human.1",
          "slx_id" : "SLX-101",
          "name" : "YUSAABTD14",
-         "indexes" : "",
-         "r1_fastq_file": "${pipeline_data_root}/SLX-101.s_1.SRR8983571.fastq.gz",
+         "indexes" : "I7",
          "treatment" : "venetoclax"
       }
    ],
