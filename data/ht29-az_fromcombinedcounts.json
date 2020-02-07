@@ -1,0 +1,98 @@
+{
+   "samples" : [
+      {
+         "cosmic_id" : "",
+         "indexes" : "",
+         "name" : "FGC_AZ_001_1",
+         "library_annotation" : "yusa_v3_human.1",
+         "slx_id" : "",
+         "class" : "control",
+         "r1_fastq_file": ""
+      },
+      {
+         "cosmic_id" : "",
+         "indexes" : "",
+         "name" : "FGC_AZ_001_2",
+         "library_annotation" : "yusa_v3_human.1",
+         "slx_id" : "",
+         "class" : "control",
+         "r1_fastq_file": ""
+      },
+      {
+         "cosmic_id" : "",
+         "indexes" : "",
+         "name" : "FGC_AZ_001_3",
+         "library_annotation" : "yusa_v3_human.1",
+         "slx_id" : "",
+         "class" : "plasmid",
+         "r1_fastq_file": ""
+      },
+      {
+         "slx_id" : "",
+         "library_annotation" : "yusa_v3_human.1",
+         "class" : "plasmid",
+         "name" : "FGC_AZ_001_4",
+         "indexes" : "",
+         "cosmic_id" : "",
+         "r1_fastq_file": ""
+      }
+   ],
+   "comparisons" : [
+      {
+         "library_annotation" : "yusa_v3_human.1",,
+         "control_samples" : [
+            "FGC_AZ_001_1",
+            "FGC_AZ_001_2"
+         ],
+         "plasmid_samples" : [
+            "FGC_AZ_001_3",
+	    "FGC_AZ_001_4"
+         ],
+         "species" : "human",
+         "name" : "essentiality_test",
+         "type" : "n",
+         "counts_file" : "combined_counts.txt",
+         "sample_prefix" : "",
+         "goal" : "lethality"
+      }
+   ],
+   "general" : {
+      "user_email" : "alex.kalinka@cancer.org.uk",
+      "job_id" : "ht29_from_combinedcounts",
+      "species" : "human",
+      "name" : "ht29-az_from_combinedcounts",
+      "process_methodn" : "base",
+      "project_name" : "ht29-az",
+      "input_dir_combined_counts" : "s3://transformed-data-bucket-rel/dataset/ht29-az_from_combinedcounts"
+   },
+   "meta" : [
+      {
+         "class" : "control",
+         "sample" : "FGC_AZ_001_1",
+         "type" : "n",
+         "name" : "ht29-az",
+         "batch" : "1"
+      },
+      {
+         "class" : "control",
+         "sample" : "FGC_AZ_001_2",
+         "type" : "n",
+         "name" : "ht29-az",
+         "batch" : "1"
+      },
+      {
+         "class" : "plasmid",
+         "sample" : "FGC_AZ_001_3",
+         "type" : "n",
+         "name" : "ht29-az",
+         "batch" : "1"
+      },
+      {
+         "class" : "plasmid",
+         "sample" : "FGC_AZ_001_4",
+         "type" : "n",
+         "name" : "ht29-az",
+         "batch" : "1"
+      }
+   ]
+}

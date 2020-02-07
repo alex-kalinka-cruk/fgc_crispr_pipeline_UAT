@@ -1,0 +1,199 @@
+{
+   "samples" : [
+      {
+         "cosmic_id" : "",
+         "indexes" : "",
+         "name" : "YUSADMSOD0",
+         "library_annotation" : "yusa_v1_human.1",
+         "slx_id" : "",
+         "class" : "baseline",
+         "r1_fastq_file": ""
+      },
+      {
+         "slx_id" : "",
+         "library_annotation" : "yusa_v1_human.1",
+         "class" : "plasmid",
+         "name" : "YUSAplasmid",
+         "indexes" : "",
+         "cosmic_id" : "",
+         "r1_fastq_file": ""
+      },
+      {
+         "indexes" : "",
+         "name" : "YUSADMSOD7",
+         "library_annotation" : "yusa_v1_human.1",
+         "slx_id" : "",
+         "class" : "control",
+         "r1_fastq_file": ""
+      },
+      {
+         "indexes" : "",
+         "name" : "YUSADMSOD7dupl",
+         "library_annotation" : "yusa_v1_human.1",
+         "slx_id" : "",
+         "class" : "control",
+         "r1_fastq_file": ""
+      },
+      {
+         "indexes" : "",
+         "name" : "YUSADMSOD14",
+         "library_annotation" : "yusa_v1_human.1",
+         "slx_id" : "",
+         "class" : "control",
+         "r1_fastq_file": ""
+      },
+      {
+         "indexes" : "",
+         "name" : "YUSADMSOD14dupl",
+         "library_annotation" : "yusa_v1_human.1",
+         "slx_id" : "",
+         "class" : "control",
+         "r1_fastq_file": ""
+      },
+      {
+         "class" : "treatment",
+         "library_annotation" : "yusa_v1_human.1",
+         "slx_id" : "",
+         "name" : "YUSAABTD7",
+         "indexes" : "",
+         "r1_fastq_file": "",
+         "treatment" : "venetoclax"
+      },
+{
+         "class" : "treatment",
+         "library_annotation" : "yusa_v1_human.1",
+         "slx_id" : "",
+         "name" : "YUSAABTD14",
+         "indexes" : "",
+         "r1_fastq_file": "",
+         "treatment" : "venetoclax"
+      }
+   ],
+   "comparisons" : [
+      {
+         "library_annotation" : "yusa_v1_human.1",
+         "treatment_samples" : [
+            "YUSAABTD7"
+         ],
+         "baseline_samples" : [
+            "YUSADMSOD0"
+         ],
+         "control_samples" : [
+            "YUSADMSOD7",
+            "YUSADMSOD7dupl"
+         ],
+         "plasmid_samples" : [
+            "YUSAplasmid"
+         ],
+         "species" : "human",
+         "name" : "venetoclax_d7_vs_DMSO",
+         "type" : "n",
+         "counts_file" : "venetoclax_d7_vs_DMSO_combined_counts.txt",
+         "sample_prefix" : "",
+         "goal" : "resistance"
+      },
+      {
+         "goal" : "resistance",
+         "plasmid_samples" : [
+            "YUSAplasmid"
+         ],
+         "type" : "n",
+         "counts_file" : "venetoclax_d14_vs_DMSO_combined_counts.txt",
+         "sample_prefix" : "",
+         "name" : "venetoclax_d14_vs_DMSO",
+         "species" : "human",
+         "baseline_samples" : [
+            "YUSADMSOD0"
+         ],
+         "control_samples" : [
+            "YUSADMSOD14",
+            "YUSADMSOD14dupl"
+         ],
+         "treatment_samples" : [
+            "YUSAABTD14"
+         ],
+         "library_annotation" : "yusa_v1_human.1"
+      }
+   ],
+   "general" : {
+      "user_email" : "miika.ahdesmaki@astrazeneca.com",
+      "job_id" : "public_PRJNA540211_MOLM13_Venetoclax_Yusa_from_combinedcounts",
+      "species" : "human",
+      "name" : "public_PRJNA540211_MOLM13_Venetoclax_Yusa_from_combinedcounts",
+      "process_methodn" : "base",
+      "project_name" : "public_data",
+      "input_dir_combined_counts" : "s3://transformed-data-bucket-rel/dataset/venetoclax_from_combinedcounts"
+   },
+   "meta" : [
+      {
+         "class" : "plasmid",
+         "sample" : "YUSAplasmid",
+         "type" : "n",
+         "name" : "venetoclax_d7_vs_DMSO",
+         "batch" : "1"
+      },
+      {
+         "class" : "plasmid",
+         "sample" : "YUSAplasmid",
+         "type" : "n",
+         "name" : "venetoclax_d14_vs_DMSO",
+         "batch" : "1"
+      },
+      {
+         "class" : "baseline",
+         "sample" : "YUSADMSOD0",
+         "type" : "n",
+         "name" : "venetoclax_d7_vs_DMSO",
+         "batch" : "1"
+      },
+      {
+         "class" : "baseline",
+         "sample" : "YUSADMSOD0",
+         "type" : "n",
+         "name" : "venetoclax_d14_vs_DMSO",
+         "batch" : "1"
+      },
+      {
+         "class" : "control",
+         "sample" : "YUSADMSOD7",
+         "type" : "n",
+         "name" : "venetoclax_d7_vs_DMSO",
+         "batch" : "1"
+      },
+      {
+         "class" : "control",
+         "sample" : "YUSADMSOD7dupl",
+         "type" : "n",
+         "name" : "venetoclax_d7_vs_DMSO",
+         "batch" : "2"
+      },
+      {
+         "class" : "control",
+         "sample" : "YUSADMSOD14",
+         "type" : "n",
+         "name" : "venetoclax_d14_vs_DMSO",
+         "batch" : "1"
+      },
+      {
+         "class" : "control",
+         "sample" : "YUSADMSOD14dupl",
+         "type" : "n",
+         "name" : "venetoclax_d14_vs_DMSO",
+         "batch" : "2"
+      },
+      {
+         "class" : "treatment",
+         "sample" : "YUSAABTD7",
+         "type" : "n",
+         "name" : "venetoclax_d7_vs_DMSO",
+         "batch" : "1"
+      },
+      {
+         "class" : "treatment",
+         "sample" : "YUSAABTD14",
+         "type" : "n",
+         "name" : "venetoclax_d14_vs_DMSO",
+         "batch" : "1"
+      }
+   ]
+}

@@ -85,7 +85,7 @@
       "name" : "bthin_from_combinedcounts",
       "process_methodn" : "base",
       "project_name" : "bthin",
-      "input_dir_combined_counts" : "~/fgc-pipeline-uat-input-data/bthin/"
+      "input_dir_combined_counts" : "s3://transformed-data-bucket-rel/dataset/bthin_from_combinedcounts"
    },
    "meta" : [
       {
