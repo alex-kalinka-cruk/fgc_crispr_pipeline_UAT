@@ -105,7 +105,7 @@ compare_mageck <- function(files_v1, files_v2){
 }
 
 # compare all.
-compare_all <- function(path_v1, path_v2, type = "resistance"){
+compare_all <- function(path_v1, path_v2, type = "resistance", test_counts = T){
   if(!dir.exists(path_v1))
     stop(paste("unable to find v1 output:",path_v1))
   if(!dir.exists(path_v2))
@@ -113,9 +113,11 @@ compare_all <- function(path_v1, path_v2, type = "resistance"){
   tryCatch({
     cat("Analysis output files identical:")
     print(compare_analysis_files(path_v1, path_v2))
-    cat("Count files identical:")
-    print(compare_counts(list.files(path_v1,full.names = T,recursive = T),
-                     list.files(path_v2,full.names = T,recursive = T)))
+    if(test_counts){
+      cat("Count files identical:")
+      print(compare_counts(list.files(path_v1,full.names = T,recursive = T),
+                       list.files(path_v2,full.names = T,recursive = T)))
+    }
     if(type == "resistance"){
       cat("Mageck Treatment vs Control identical:")
       print(compare_mageck(list.files(path_v1,full.names = T,recursive = T),
@@ -202,14 +204,14 @@ path_v1 <- file.path(CWD,"combined_counts","crisprn","venetoclax_d7_vs_DMSO")
 path_v2 <- file.path(params$output_v2,"public_data","public_PRJNA540211_MOLM13_Venetoclax_Yusa_from_combinedcounts",
                      "1","crisprn","venetoclax_d7_vs_DMSO")
 
-compare_all(path_v1, path_v2)
+compare_all(path_v1, path_v2, test_counts = F)
 
 cat("Day 14:")
 path_v1 <- file.path(CWD,"combined_counts","crisprn","venetoclax_d14_vs_DMSO")
 path_v2 <- file.path(params$output_v2,"public_data","public_PRJNA540211_MOLM13_Venetoclax_Yusa_from_combinedcounts",
                      "1","crisprn","venetoclax_d14_vs_DMSO")
 
-compare_all(path_v1, path_v2)
+compare_all(path_v1, path_v2, test_counts = F)
 
 ```
 
