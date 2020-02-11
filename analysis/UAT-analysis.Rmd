@@ -81,9 +81,9 @@ compare_analysis_files <- function(path_v1, path_v2){
     v2_files <- v2_files[!grepl("PathwayAnalysis",v2_files)]
     setwd(CWD)
     cat("Files private to v1:\n")
-    setdiff(v1_files,v2_files)
+    print(setdiff(v1_files,v2_files))
     cat("Files private to v2:\n")
-    setdiff(v2_files,v1_files)
+    print(setdiff(v2_files,v1_files))
   },
   error = function(e) stop(paste("unable to compare analysis output file structure:",e))
   )
