@@ -128,13 +128,15 @@ tryCatch(unpack_inputs(),
 
 cat("Day 7:")
 path_v1 <- file.path(CWD,"fastq","crisprn","venetoclax_d7_vs_DMSO")
-path_v2 <- file.path(params$output_v2,"public_data","multi_SLX","1","crisprn","venetoclax_d7_vs_DMSO")
+path_v2 <- file.path(params$output_v2,"public_data","public_PRJNA540211_MOLM13_Venetoclax_Yusa","1",
+                     "crisprn","venetoclax_d7_vs_DMSO")
 
 compare_all(path_v1, path_v2)
 
 cat("Day 14:")
 path_v1 <- file.path(CWD,"fastq","crisprn","venetoclax_d14_vs_DMSO")
-path_v2 <- file.path(params$output_v2,"public_data","multi_SLX","1","crisprn","venetoclax_d14_vs_DMSO")
+path_v2 <- file.path(params$output_v2,"public_data","public_PRJNA540211_MOLM13_Venetoclax_Yusa",
+                     "1","crisprn","venetoclax_d14_vs_DMSO")
 
 compare_all(path_v1, path_v2)
 
@@ -144,7 +146,8 @@ compare_all(path_v1, path_v2)
 
 ```{r}
 path_v1 <- file.path(CWD,"ht29-az","crisprn","plasmid_test")
-path_v2 <- file.path(params$output_v2,"ht29","ht29-az","1","crisprn","plasmid_test")
+path_v2 <- file.path(params$output_v2,"ht29-az","ht29-az_from_combinedcounts","1","crisprn",
+                     "essentiality_test")
 
 compare_all(path_v1, path_v2)
 
@@ -157,15 +160,15 @@ compare_all(path_v1, path_v2)
 ```{r}
 cat("Day 7:")
 path_v1 <- file.path(CWD,"fastq","crisprn","venetoclax_d7_vs_DMSO")
-path_v2 <- file.path(params$output_v2,"public_data","public_PRJNA540211_MOLM13_Venetoclax_Yusa","1","crisprn",
-                     "venetoclax_d7_vs_DMSO")
+path_v2 <- file.path(params$output_v2,"public_data","public_PRJNA540211_MOLM13_Venetoclax_Yusa_from_fastq",
+                     "1","crisprn","venetoclax_d7_vs_DMSO")
 
 compare_all(path_v1, path_v2)
 
 cat("Day 14:")
 path_v1 <- file.path(CWD,"fastq","crisprn","venetoclax_d14_vs_DMSO")
-path_v2 <- file.path(params$output_v2,"public_data","public_PRJNA540211_MOLM13_Venetoclax_Yusa","1","crisprn",
-                     "venetoclax_d14_vs_DMSO")
+path_v2 <- file.path(params$output_v2,"public_data","public_PRJNA540211_MOLM13_Venetoclax_Yusa_from_fastq",
+                     "1","crisprn","venetoclax_d14_vs_DMSO")
 
 compare_all(path_v1, path_v2)
 
@@ -200,9 +203,9 @@ compare_all(path_v1, path_v2)
 # Genes with 0 < lfc < 0.8 will be ignored when calculating sens. and spec.
 lod.lfc <- params$lod_lfc
 path_mageck <- file.path(params$output_v2,"bthin","bthin_from_combinedcounts","1","crisprn",
-                         "control_vs_treatment","Treatment_vs_Control.gene_summary.txt")
+                         "control_vs_treatment","mageck","Treatment_vs_Control.gene_summary.txt")
 
-c903.mageck <- read.table(path_mageck,header=T, stringsAsFactors = F) %>%
+c903.mageck <- read.table(path_mageck, header=T, stringsAsFactors = F) %>%
   mutate(lfc_bthin = ifelse(id %in% names(lfc), lfc[match(id, names(lfc))], 0)) %>%
   rowwise() %>%
   mutate(sign.05 = (neg.fdr < 0.05 || pos.fdr < 0.05),
