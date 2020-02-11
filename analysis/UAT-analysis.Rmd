@@ -188,7 +188,7 @@ compare_all(path_v1, path_v2)
 ```{r}
 path_v1 <- file.path(CWD,"ht29","combined_counts.txt")
 path_v2 <- file.path(params$output_v2,"ht29-az","ht29-az_from_combinedcounts","1","crisprn",
-                     "essentiality_test")
+                     "essentiality_test","counts","combined_counts.txt")
 
 compare_counts(path_v1, path_v2)
 
