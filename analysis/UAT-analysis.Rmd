@@ -34,7 +34,7 @@ suppressMessages(library(magrittr))
 suppressMessages(library(ggplot2))
 suppressMessages(library(dplyr))
 
-if(!params$output_v1 || !params$output_v2)
+if(is.logical(params$output_v1) || is.logical(params$output_v2))
   stop("Both 'output_v1' and 'output_v2' paths must be provided in the list given to the 'params' argument")
 
 # Load bthin subset of genes with log2 fold-change signal added to their gRNAs.
