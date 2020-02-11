@@ -87,7 +87,7 @@ compare_analysis_files <- function(path_v1, path_v2){
 }
 
 # Compare counts.
-compare_counts <- function(files_v1, files_v2){
+compare_counts <- function(files_v1, files_v2, verbose=F){
   tryCatch({
     # Input orders can depend on exact order in json config.
     counts_v1 <- read.table(files_v1[grepl("combined_counts.txt",files_v1)],header=T,stringsAsFactors = F) %>%
@@ -99,6 +99,9 @@ compare_counts <- function(files_v1, files_v2){
   },
   error = function(e) stop(paste("unable to process counts files:",e))
   )
+  if(verbose){
+    cat("Count files identical:\n")
+  }
   return(all.equal(counts_v1, counts_v2))
 }
 
@@ -128,7 +131,7 @@ compare_all <- function(path_v1, path_v2, type = "resistance", test_counts = T){
     stop(paste("unable to find v2 output:",path_v2))
   tryCatch({
     cat("Analysis output file comparison:\n")
-    print(compare_analysis_files(path_v1, path_v2))
+    compare_analysis_files(path_v1, path_v2)
     if(test_counts){
       cat("\nCount files identical:\n")
       print(compare_counts(list.files(path_v1,full.names = T,recursive = T),
@@ -142,6 +145,7 @@ compare_all <- function(path_v1, path_v2, type = "resistance", test_counts = T){
   },
   error = function(e) stop(paste("unable to compare data:",e))
   )
+  return(invisible())
 }
 
 ```
@@ -187,8 +191,7 @@ path_v1 <- file.path(CWD,"ht29","combined_counts.txt")
 path_v2 <- file.path(params$output_v2,"ht29-az","ht29-az_from_combinedcounts","1","crisprn",
                      "essentiality_test","counts","combined_counts.txt")
 
-cat("Count files identical:\n")
-compare_counts(path_v1, path_v2)
+compare_counts(path_v1, path_v2, verbose=T)
 
 ```
 
