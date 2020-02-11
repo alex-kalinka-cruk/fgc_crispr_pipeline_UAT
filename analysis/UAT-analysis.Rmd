@@ -151,7 +151,7 @@ compare_all(path_v1, path_v2)
 ## 2. HT29 (SLX-17741)
 
 ```{r}
-path_v1 <- file.path(CWD,"ht29-az","crisprn","plasmid_test")
+path_v1 <- file.path(CWD,"plasmid_test")
 path_v2 <- file.path(params$output_v2,"ht29-az","ht29-az_from_combinedcounts","1","crisprn",
                      "essentiality_test")
 
