@@ -160,6 +160,16 @@ if(params$unpack_inputs){
 }
 ```
 
+# Approach
+
+For v1 and v2 output:
+
+* Compare the set of output files and their file-system structure.
+* Compare the counts files.
+* Compare the Mageck output for Treatment vs Control.
+* Compare the performance of Mageck on a dataset with a known amount of log2 fold signal added to sgRNAs that are all true negatives (see `prep_data`).
+* Bagel output cannot be compared since the bootstrap output is random in v1 and not fixed until v2.
+
 # Concordance of pipeline outputs with v1
 
 ## 1. Multi-SLX input (Venetoclax sub-sampled FASTQs)

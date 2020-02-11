@@ -11,7 +11,7 @@ Once a Linux VM is set up and working (minimum 100 GB storage), it will be neces
 
 * Set up AWS credentials (key, secret key, eu-west-1 [region]): `aws configure`
 * Sync the v1 pipeline output data from S3 to a local path: `aws sync s3://fgc-pipeline-uat-output-v1 .`
-* Sync the v2 pipeline output data: `aws sync s3://fgc-pipeline-uat-output-v2-20200127 .`
+* Sync the v2 pipeline output data to a v2 directory, e.g. `aws s3 sync s3://fgc-output-bucket-rel/jenkins/37/analyses_nf/ . --profile rel`
 
 ### R analysis
 The analysis is contained in an R markdown document (`.Rmd`) in the `analysis` sub-directory. When run using `Rscript`, this will produce an `html` output containing the UAT results. To produce this, you must install `pandoc` via `conda`:
@@ -25,7 +25,15 @@ The analysis is contained in an R markdown document (`.Rmd`) in the `analysis` s
 
 ## Usage
 
-To save `UAT-results.html` to the current working directory (note input and output data **absolute** paths provided to `render` via `params` argument):
+To save `UAT-results.html` to `results_dir` (note input and output data **absolute** paths provided to `render` via `params` argument):
 
-`Rscript -e 'Sys.setenv(RSTUDIO_PANDOC="/home/ec2-user/miniconda2/bin/pandoc"); library(rmarkdown); rmarkdown::render("/path/to/fgc_crispr_pipeline_UAT/analysis/UAT-analysis.Rmd", output_file="UAT-results.html", params = list(output_v1 = "/path/to/output_v1", output_v2 = "/path/to/output_v2"))`
+```r
+R
+library(rmarkdown)
+rmarkdown::render("path/to/fgc_crispr_pipeline_UAT/analysis/UAT-analysis.Rmd",
+					output_file = "/path/to/results_dir/UAT-results.html",
+					params = list(output_v1 = "/path/to/v1_output",
+					output_v2 = "/path/to/v2/output",
+					results_dir = "/path/to/results_dir"))
+```
 
