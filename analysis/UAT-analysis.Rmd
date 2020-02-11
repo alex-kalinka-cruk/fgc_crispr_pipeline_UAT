@@ -99,9 +99,9 @@ compare_mageck <- function(files_v1, files_v2){
 # compare all.
 compare_all <- function(path_v1, path_v2){
   if(!dir.exists(path_v1))
-    stop("unable to find v1 output:")
+    stop(paste("unable to find v1 output:",path_v1))
   if(!dir.exists(path_v2))
-    stop("unable to find v2 output:")
+    stop(paste("unable to find v2 output:",path_v2))
   tryCatch({
     cat("Analysis output files identical:")
     print(compare_analysis_files(path_v1, path_v2))
