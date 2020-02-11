@@ -71,15 +71,22 @@ compare_analysis_files <- function(path_v1, path_v2){
     # Must change into dirs to remove upstream path differences.
     setwd(path_v1)
     v1_files <- list.files(path_v1, full.names = T, recursive = T)
+    v1_files <- gsub("^.*?/(crisprn/.*)$","\\1",v1_files)
     # Must remove the 'GeneConnectivity' AZ-only interpretation files:
     v1_files <- v1_files[!grepl("GeneConnectivity",v1_files)]
     setwd(path_v2)
     v2_files <- list.files(path_v2, full.names = T, recursive = T)
+    v2_files <- gsub("^.*?/(crisprn/.*)$","\\1",v2_files)
+    # PathwayAnalysis seems to be new in v2:
+    v2_files <- v2_files[!grepl("PathwayAnalysis",v2_files)]
     setwd(CWD)
+    cat("Files private to v1:\n")
+    setdiff(v1_files,v2_files)
+    cat("Files private to v2:\n")
+    setdiff(v2_files,v1_files)
   },
   error = function(e) stop(paste("unable to compare analysis output file structure:",e))
   )
-  return(all.equal(v1_files, v2_files))
 }
 
 # Compare counts.
@@ -123,7 +130,7 @@ compare_all <- function(path_v1, path_v2, type = "resistance", test_counts = T){
   if(!dir.exists(path_v2))
     stop(paste("unable to find v2 output:",path_v2))
   tryCatch({
-    cat("Analysis output files identical:\n")
+    cat("Analysis output file comparison:\n")
     print(compare_analysis_files(path_v1, path_v2))
     if(test_counts){
       cat("Count files identical:\n")
