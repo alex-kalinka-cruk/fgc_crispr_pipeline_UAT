@@ -123,15 +123,15 @@ compare_all <- function(path_v1, path_v2, type = "resistance", test_counts = T){
   if(!dir.exists(path_v2))
     stop(paste("unable to find v2 output:",path_v2))
   tryCatch({
-    cat("Analysis output files identical:")
+    cat("Analysis output files identical:\n")
     print(compare_analysis_files(path_v1, path_v2))
     if(test_counts){
-      cat("Count files identical:")
+      cat("Count files identical:\n")
       print(compare_counts(list.files(path_v1,full.names = T,recursive = T),
                        list.files(path_v2,full.names = T,recursive = T)))
     }
     if(type == "resistance"){
-      cat("Mageck Treatment vs Control identical:")
+      cat("Mageck Treatment vs Control identical:\n")
       print(compare_mageck(list.files(path_v1,full.names = T,recursive = T),
                        list.files(path_v2,full.names = T,recursive = T)))
     }
@@ -179,11 +179,11 @@ compare_all(path_v1, path_v2)
 ## 2. HT29 (SLX-17741)
 
 ```{r}
-path_v1 <- file.path(CWD,"plasmid_test")
+path_v1 <- file.path(CWD,"ht29","combined_counts.txt")
 path_v2 <- file.path(params$output_v2,"ht29-az","ht29-az_from_combinedcounts","1","crisprn",
                      "essentiality_test")
 
-compare_all(path_v1, path_v2, type = "lethality")
+compare_counts(path_v1, path_v2)
 
 ```
 
