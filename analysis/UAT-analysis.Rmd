@@ -98,10 +98,14 @@ compare_mageck <- function(files_v1, files_v2){
 
 # compare all.
 compare_all <- function(path_v1, path_v2){
+  if(!dir.exists(path_v1))
+    stop("unable to find v1 output:")
+  if(!dir.exists(path_v2))
+    stop("unable to find v2 output:")
   tryCatch({
     cat("Analysis output files identical:")
     print(compare_analysis_files(path_v1, path_v2))
-    cat("Counts files identical:")
+    cat("Count files identical:")
     print(compare_counts(list.files(path_v1,full.names = T,recursive = T),
                      list.files(path_v2,full.names = T,recursive = T)))
     cat("Mageck Treatment vs Control identical:")
@@ -126,7 +130,7 @@ if(params$unpack_inputs){
 
 # Concordance of pipeline outputs with v1
 
-## 1. Multi-SLX data (Venetoclax sub-sampled FASTQs)
+## 1. Multi-SLX input (Venetoclax sub-sampled FASTQs)
 
 ```{r}
 # AP output structure from json:
@@ -161,7 +165,7 @@ compare_all(path_v1, path_v2)
 
 ## 3. Public data (Venetoclax)
 
-### From FASTQs
+### From sub-sampled FASTQs
 
 ```{r}
 cat("Day 7:")
@@ -227,9 +231,9 @@ cat("10% FDR performance:")
 kable(c903.mageck %>%
   filter(!ignore) %>%
   summarise(specificity = 1-sum(false_pos)/sum(true_neg),
-            specificity.pass = specificity > params$specificity,
+            spec.pass = specificity > params$specificity,
             sensitivity = 1-sum(false_neg)/sum(true_pos),
-            sensitivity.pass = sensitivity > params$sensitivity
+            sens.pass = sensitivity > params$sensitivity
             )
 )
 
