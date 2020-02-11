@@ -39,7 +39,7 @@
    ],
    "comparisons" : [
       {
-         "library_annotation" : "yusa_v3_human.1",,
+         "library_annotation" : "yusa_v3_human.1",
          "control_samples" : [
             "FGC_AZ_001_1",
             "FGC_AZ_001_2"
