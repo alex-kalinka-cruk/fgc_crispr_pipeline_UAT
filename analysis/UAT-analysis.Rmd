@@ -72,21 +72,18 @@ compare_analysis_files <- function(path_v1, path_v2){
     setwd(path_v1)
     v1_files <- list.files(path_v1, full.names = T, recursive = T)
     v1_files <- gsub("^.*?/(crisprn/.*)$","\\1",v1_files)
-    # Must remove the 'GeneConnectivity' AZ-only interpretation files:
-    v1_files <- v1_files[!grepl("GeneConnectivity",v1_files)]
     setwd(path_v2)
     v2_files <- list.files(path_v2, full.names = T, recursive = T)
     v2_files <- gsub("^.*?/(crisprn/.*)$","\\1",v2_files)
-    # PathwayAnalysis seems to be new in v2:
-    v2_files <- v2_files[!grepl("PathwayAnalysis",v2_files)]
     setwd(CWD)
-    cat("Files private to v1:\n")
+    cat("\nFiles private to v1:\n")
     print(setdiff(v1_files,v2_files))
-    cat("Files private to v2:\n")
+    cat("\nFiles private to v2:\n")
     print(setdiff(v2_files,v1_files))
   },
   error = function(e) stop(paste("unable to compare analysis output file structure:",e))
   )
+  return(invisible())
 }
 
 # Compare counts.
@@ -133,12 +130,12 @@ compare_all <- function(path_v1, path_v2, type = "resistance", test_counts = T){
     cat("Analysis output file comparison:\n")
     print(compare_analysis_files(path_v1, path_v2))
     if(test_counts){
-      cat("Count files identical:\n")
+      cat("\nCount files identical:\n")
       print(compare_counts(list.files(path_v1,full.names = T,recursive = T),
                        list.files(path_v2,full.names = T,recursive = T)))
     }
     if(type == "resistance"){
-      cat("Mageck Treatment vs Control identical:\n")
+      cat("\nMageck Treatment vs Control identical:\n")
       print(compare_mageck(list.files(path_v1,full.names = T,recursive = T),
                        list.files(path_v2,full.names = T,recursive = T)))
     }
@@ -190,6 +187,7 @@ path_v1 <- file.path(CWD,"ht29","combined_counts.txt")
 path_v2 <- file.path(params$output_v2,"ht29-az","ht29-az_from_combinedcounts","1","crisprn",
                      "essentiality_test","counts","combined_counts.txt")
 
+cat("Count files identical:\n")
 compare_counts(path_v1, path_v2)
 
 ```
