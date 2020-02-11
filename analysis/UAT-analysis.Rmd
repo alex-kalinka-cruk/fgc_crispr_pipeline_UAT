@@ -12,6 +12,7 @@ output:
     toc: true
     toc_float: true
 params:
+  unpack_inputs: FALSE
   output_v1: FALSE
   output_v2: FALSE
   lod_lfc: !r 0.8
@@ -111,11 +112,16 @@ compare_all <- function(path_v1, path_v2){
   )
 }
 
-# Unpack the inputs.
-tryCatch(unpack_inputs(),
-         error = function(e) stop(paste("error unpacking v1 outputs:",e))
-)
+```
 
+
+```{r}
+if(params$unpack_inputs){
+  # Unpack the inputs.
+  tryCatch(unpack_inputs(),
+           error = function(e) stop(paste("error unpacking v1 outputs:",e))
+  )
+}
 ```
 
 # Concordance of pipeline outputs with v1
