@@ -15,6 +15,7 @@ params:
   unpack_inputs: FALSE
   output_v1: FALSE
   output_v2: FALSE
+  results_dir: FALSE
   lod_lfc: !r 0.8
   specificity: !r 0.99
   sensitivity: !r 0.78
@@ -25,6 +26,16 @@ params:
 ```{r setup}
 set.seed(1)
 
+if(is.logical(params$results_dir))
+  stop("a valid path to the results directory must be provided in the list given to the 'params' argument")
+
+if(!dir.exists(params$results_dir))
+  stop("a valid path to the results directory must be provided in the list given to the 'params' argument")
+
+if(is.logical(params$output_v1) || is.logical(params$output_v2))
+  stop("Both 'output_v1' and 'output_v2' paths must be provided in the list given to the 'params' argument")
+
+setwd(params$results_dir)
 CWD <- getwd()
 
 options(warn=-1)
@@ -33,9 +44,6 @@ suppressMessages(library(tidyr))
 suppressMessages(library(magrittr))
 suppressMessages(library(ggplot2))
 suppressMessages(library(dplyr))
-
-if(is.logical(params$output_v1) || is.logical(params$output_v2))
-  stop("Both 'output_v1' and 'output_v2' paths must be provided in the list given to the 'params' argument")
 
 # Load bthin subset of genes with log2 fold-change signal added to their gRNAs.
 lfc <- readRDS(file = file.path(params$output_v1,"bthin_lfc_rnorm.rds"))
