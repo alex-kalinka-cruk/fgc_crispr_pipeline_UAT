@@ -71,6 +71,8 @@ compare_analysis_files <- function(path_v1, path_v2){
     # Must change into dirs to remove upstream path differences.
     setwd(path_v1)
     v1_files <- list.files(path_v1, full.names = T, recursive = T)
+    # Must remove the 'GeneConnectivity' AZ-only interpretation files:
+    v1_files <- v1_files[!grepl("GeneConnectivity",v1_files)]
     setwd(path_v2)
     v2_files <- list.files(path_v2, full.names = T, recursive = T)
     setwd(CWD)
@@ -83,8 +85,13 @@ compare_analysis_files <- function(path_v1, path_v2){
 # Compare counts.
 compare_counts <- function(files_v1, files_v2){
   tryCatch({
-    counts_v1 <- read.table(files_v1[grepl("combined_counts.txt",files_v1)],header=T,stringsAsFactors = F)
-    counts_v2 <- read.table(files_v2[grepl("combined_counts.txt",files_v2)],header=T,stringsAsFactors = F)
+    # Input orders can depend on exact order in json config.
+    counts_v1 <- read.table(files_v1[grepl("combined_counts.txt",files_v1)],header=T,stringsAsFactors = F) %>%
+      dplyr::arrange(sgRNA)
+    counts_v1 <- counts_v1[,order(colnames(counts_v1))]
+    counts_v2 <- read.table(files_v2[grepl("combined_counts.txt",files_v2)],header=T,stringsAsFactors = F) %>%
+      dplyr::arrange(sgRNA)
+    counts_v2 <- counts_v2[,order(colnames(counts_v2))]
   },
   error = function(e) stop(paste("unable to process counts files:",e))
   )
@@ -94,10 +101,15 @@ compare_counts <- function(files_v1, files_v2){
 # Compare Mageck gene summary output for Treatment vs Control.
 compare_mageck <- function(files_v1, files_v2){
   tryCatch({
+    # Ranks can vary when there are ties and so 'id' must also be re-arranged.
     mageck_v1 <- read.table(files_v1[grepl("Treatment_vs_Control.gene_summary.txt",files_v1)],
-                            header=T,stringsAsFactors = F)
+                            header=T,stringsAsFactors = F) %>%
+      dplyr::arrange(id) %>%
+      dplyr::select(-neg.rank, -pos.rank)
     mageck_v2 <- read.table(files_v2[grepl("Treatment_vs_Control.gene_summary.txt",files_v2)],
-                            header=T,stringsAsFactors = F)
+                            header=T,stringsAsFactors = F) %>%
+      dplyr::arrange(id) %>%
+      dplyr::select(-neg.rank, -pos.rank)
   },
   error = function(e) stop(paste("unable to process mageck files:",e))
   )
